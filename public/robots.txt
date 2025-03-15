@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://dot95.vercel.com
+
+# Sitemaps
+Sitemap: https://dot95.vercel.com/sitemap.xml
