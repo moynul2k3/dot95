@@ -57,7 +57,7 @@ const Navbar = () => {
 						alt="Vercel logomark"
 						width={100}
 						height={100}
-						className='h-full py-2 w-auto'
+						className='h-full py-1 w-auto'
 					/>
           <div className={ `w-full flex justify-center items-start flex-col gap-0 text-inherit max-md:hidden transition-all duration-300 ease-in-out 
           ${ isScrolled ? "text-black" : "text-white" }` }>
