@@ -50,7 +50,7 @@ const AuthUser = ({ isScrolled, isChangeBg }: AuthProps) => {
             aria-label="User Profile"
           >
             <i className="bx bx-user text-2xl"></i>
-            <span className="text-sm">{u_id}</span>
+            <span className="text-sm max-md:hidden">{u_id}</span>
           </button>
           <UserPopup />
         </div>
@@ -61,7 +61,7 @@ const AuthUser = ({ isScrolled, isChangeBg }: AuthProps) => {
           aria-label="User Profile"
         >
           <i className="bx bx-user text-2xl"></i>
-          <span>SignIn/SignUp</span>
+          <span className=" max-md:hidden">SignIn/SignUp</span>
         </button>
       )}
     </div>
