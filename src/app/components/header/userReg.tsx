@@ -70,9 +70,9 @@ const AuthUser = ({ isScrolled, isChangeBg }: AuthProps) => {
 
 export const UserPopup = () => {
   return (
-    <div className="absolute top-0 h-auto w-40 z-30 opacity-0 invisible group-hover:opacity-100 group-hover:visible pt-12 transition-all ease-in-out duration-300">
+    <div className="absolute top-0 max-md:-right-2 h-auto w-40 z-30 opacity-0 invisible group-hover:opacity-100 group-hover:visible pt-12 transition-all ease-in-out duration-300">
       <div className="relative flex justify-center items-center w-full h-full bg-white shadow-sm shadow-black/20 rounded text-black backdrop-blur-2xl">
-        <i className="bx bxs-up-arrow absolute -top-3"></i>
+        <i className="bx bxs-up-arrow absolute -top-3 max-md:right-3"></i>
         <div className="h-full w-full p-3 flex justify-start items-start gap-3 flex-col">
           <Link href="" className="flex justify-start items-center gap-3 group/item">
             <i className="bx bx-smile text-[20px] font-thin"></i>
