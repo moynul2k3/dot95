@@ -7,8 +7,8 @@ const API_URL =
 
 
 export async function middleware(request: NextRequest) {
-    const accessToken = request.cookies.get('ac_T')?.value || '';
-    const refreshToken = request.cookies.get('rf_T')?.value || '';
+    const accessToken = request.cookies.get('ac_T')?.value || null;
+    const refreshToken = request.cookies.get('rf_T')?.value || null;
     const url = new URL(request.url);
     const prevHeader = request.headers.get('referer');
     const prevUrl = prevHeader ? new URL(prevHeader, request.nextUrl.origin) : new URL('/', request.nextUrl.origin);
@@ -16,7 +16,7 @@ export async function middleware(request: NextRequest) {
 
     try {
         if (refreshToken) {
-            if (accessToken && await verifyToken(accessToken)) {
+            if (accessToken !== null && await verifyToken(accessToken)) {
                 return response;
             }
             const data = await refreshAccessToken(refreshToken);
