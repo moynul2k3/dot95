@@ -1,8 +1,10 @@
 "use client"
 //import axios from 'axios';
+import { getCookie, deleteCookie } from 'cookies-next/client';
+
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { getCookie } from '@/app/lib/Cookie/manageCookie'
+//import { getCookie } from '@/app/lib/Cookie/manageCookie'
 
 const API_URL =
     process.env.NEXT_PUBLIC_PRODUCTION === "true"
@@ -15,7 +17,7 @@ export default function SigninSignup() {
 	const [loading, setLoading] = useState(false);
 
 	const logOut = async () => {
-		const refreshToken = await getCookie("rf_T");
+		const refreshToken = getCookie("rf_T");
 		setLoading(true);
 		try {
 			const response = await fetch(`${API_URL}/token/logout/`, {
@@ -26,9 +28,7 @@ export default function SigninSignup() {
 				body: JSON.stringify({ refresh: refreshToken }),
 			});
 			if (response.ok) {
-				document.cookie = `ac_T=; path=/;`;
-				document.cookie = `rf_T=; path=/;`;
-				document.cookie = `u_id=; path=/;`;
+				['ac_T', 'rf_T', 'u_id'].forEach(cookie => deleteCookie(cookie));
 				router.push("/");
 				return window.location.reload();
 			};

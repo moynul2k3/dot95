@@ -1,6 +1,7 @@
 "use client";
-
 import React, { useEffect, useState } from "react";
+import { getCookie } from 'cookies-next/client';
+
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Logout from "@/app/components/registration/logout";
@@ -10,27 +11,24 @@ interface AuthProps {
   isChangeBg: boolean;
 }
 
-// Function to get cookie value (only runs on the client)
-const getCookie = (name: string): string | null => {
-  if (typeof document !== "undefined") {
-    const match = document.cookie.match(new RegExp(`(^| )${name}=([^;]+)`));
-    return match ? match[2] : null;
-  }
-  return null;
-};
 
 const AuthUser = ({ isScrolled, isChangeBg }: AuthProps) => {
   const [u_id, setUid] = useState<string | null>(null);
+  const [rf_T, setRf_T] = useState<string | null>(null);
   const [isMounted, setIsMounted] = useState(false); // Ensure hydration consistency
   const router = useRouter();
+  //const id = getCookie("u_id") 
 
   useEffect(() => {
-    setUid(getCookie("u_id")); // Get the cookie only on the client
+    const u_id = getCookie("u_id") 
+    const rf_T = getCookie("rf_T") 
+    setUid(u_id?u_id.toString():null);
+    setRf_T(rf_T?rf_T.toString():null);
     setIsMounted(true); // Mark component as mounted
   }, []);
 
   const handleButtonClick = () => {
-    if (!u_id) {
+    if (!u_id && !rf_T) {
       router.push("?user=_authentication-required");
     }
   };
@@ -42,7 +40,7 @@ const AuthUser = ({ isScrolled, isChangeBg }: AuthProps) => {
 
   return (
     <div className="flex justify-center items-center gap-2 text-white w-auto max-w-20 h-10 rounded cursor-pointer relative z-40">
-      {u_id ? (
+      {u_id && rf_T ? (
         <div className="group flex justify-center items-center">
           <button
             onClick={handleButtonClick}

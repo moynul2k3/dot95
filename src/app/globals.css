@@ -91,11 +91,12 @@
 ::-webkit-scrollbar {
   width: 5px;
   height: 10px;
+  z-index: 0;
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: transparent;
+  background: #747474a1;
 }
 
 /* Handle */
