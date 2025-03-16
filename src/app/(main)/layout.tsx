@@ -40,7 +40,7 @@ export default function RootLayout({
           {JSON.stringify({
             "@context": "https://schema.org",
             "@type": "WebSite",
-            "name": "dot95",
+            "name": "moynul2k3",
             "url": "https://dot95.vercel.app",
             "potentialAction": {
               "@type": "SearchAction",
