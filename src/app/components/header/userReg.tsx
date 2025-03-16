@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { getCookie } from 'cookies-next/client';
+import { Skeleton } from "@/components/ui/skeleton";
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -17,7 +18,6 @@ const AuthUser = ({ isScrolled, isChangeBg }: AuthProps) => {
   const [rf_T, setRf_T] = useState<string | null>(null);
   const [isMounted, setIsMounted] = useState(false); // Ensure hydration consistency
   const router = useRouter();
-  //const id = getCookie("u_id") 
 
   useEffect(() => {
     const u_id = getCookie("u_id") 
@@ -36,15 +36,33 @@ const AuthUser = ({ isScrolled, isChangeBg }: AuthProps) => {
   const textColor = isScrolled || isChangeBg ? "text-black" : "text-white";
 
   // Prevent rendering until after mount (fix hydration error)
-  if (!isMounted) return null;
+  if (!isMounted) return (
+    <div
+      className={`flex justify-center items-center gap-2 h-full w-full ${textColor} opacity-25 transition-all duration-300 ease-in-out cursor-pointer pointer-events-none `}
+      aria-label="User Profile"
+    >
+      
+      <Skeleton><i className="bx bx-user text-2xl"></i></Skeleton>
+      <Skeleton className=" max-md:hidden">▨▨▨▨▨▨▨</Skeleton>
+    </div>
+  );
 
   return (
-    <div className="flex justify-center items-center gap-2 text-white w-auto max-w-20 h-10 rounded cursor-pointer relative z-40">
-      {u_id && rf_T ? (
+    <div className="flex justify-center items-center gap-2 text-white  w-auto h-10 rounded cursor-pointer relative z-40">
+      {!u_id && !rf_T ? (
+        <button
+          onClick={handleButtonClick}
+          className={`flex justify-center items-center h-full w-full ${textColor} hover:opacity-70  transition-all duration-300 ease-in-out cursor-pointer`}
+          aria-label="User Profile"
+        >
+          <i className="bx bx-user text-2xl"></i>
+          <span className=" max-md:hidden">SignIn/SignUp</span>
+        </button>
+      ) : (
         <div className="group flex justify-center items-center">
           <button
             onClick={handleButtonClick}
-            className={`flex justify-center items-center h-full w-full ${textColor} transition-colors duration-300 ease-in-out hover:opacity-85`}
+            className={`flex justify-center items-center h-full w-full ${textColor} transition-all duration-300 ease-in-out hover:opacity-85 cursor-pointer`}
             aria-label="User Profile"
           >
             <i className="bx bx-user text-2xl"></i>
@@ -52,15 +70,6 @@ const AuthUser = ({ isScrolled, isChangeBg }: AuthProps) => {
           </button>
           <UserPopup />
         </div>
-      ) : (
-        <button
-          onClick={handleButtonClick}
-          className={`flex justify-center items-center h-full w-full ${textColor} transition-colors duration-300 ease-in-out`}
-          aria-label="User Profile"
-        >
-          <i className="bx bx-user text-2xl"></i>
-          <span className=" max-md:hidden">SignIn/SignUp</span>
-        </button>
       )}
     </div>
   );

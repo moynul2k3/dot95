@@ -1,4 +1,9 @@
 import React from 'react'
+import { Metadata } from "next";
+export const metadata: Metadata = {
+  title: "Home",
+};
+
 import Hero from "./hero"
 import SubCategories from "./subCategories"
 import TopSales from "./popularProducts"
