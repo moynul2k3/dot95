@@ -7,64 +7,28 @@ import { Splide, SplideSlide } from '@splidejs/react-splide';
 import '@splidejs/react-splide/css/core';
 import { Grid } from '@splidejs/splide-extension-grid';
 
-interface SubCategory {
+interface Category {
     id: number;
+    key?: string;
     name: string;
     image: string;
 }
 
 interface CarouselProps {
-    subCategories: SubCategory[];
-    Rows?: number;
+    categories: Category[];
 }
 
-const CatCarousel = ({ subCategories, Rows = 2 }: CarouselProps) => {
-    //const splideRef = useRef<HTMLDivElement>(null!);
+const CatCarousel = ({ categories }: CarouselProps) => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        if (subCategories.length > 0) {
+        if (categories.length > 0) {
             setLoading(false); // Data is loaded
         }
-    }, [subCategories]);
-
-    //useEffect(() => {
-    //    if (!splideRef.current) return;
-
-    //    const splide = new Splide(splideRef.current, {
-    //        grid: {
-    //            rows: Rows,
-    //            cols: 8,
-    //            gap: { row: '2px', col: '2px' },
-    //        },
-    //        type: 'loop',
-    //        rewind: false,
-    //        gap: "2px",
-    //        drag: 'free',
-    //        focus: 'center',
-    //        pagination: false,
-    //        autoWidth: false,
-    //        autoHeight: false,
-    //        breakpoints: {
-    //            1400: {  // Large screens (≤1400px)
-    //                grid: { rows: Rows, cols: 8 },
-    //            },
-    //            1024: {   // Small screens (≤1024px)
-    //                grid: { rows: Rows, cols: 5 },
-    //            },
-    //            480: {   // Extra small screens (≤480px)
-    //                grid: { rows: Rows, cols: 3 },
-    //            },
-    //        },
-    //    });
-
-    //    splide.mount({ Grid });
-
-    //    return () => {splide.destroy()};
-    //}, [loading, subCategories, Rows]);
+    }, [categories]);
 
     return (
-        <section>
+        <section className="">
             { loading ? (
                 <div className=" mt-5">
                     <div className=" mt-3 mb-5">
@@ -87,50 +51,64 @@ const CatCarousel = ({ subCategories, Rows = 2 }: CarouselProps) => {
             ) : (
                 <Splide 
                     options={ {
-                        grid: {
-                            rows: Rows,
-                            cols: 8,
-                            gap: { row: '2px', col: '2px' },
-                        },
-                        type: 'loop',
-                        rewind: false,
-                        gap: "2px",
+                        //type: 'loop',
+                        rewind: true,
+                        gap: "2rem",
                         drag: 'free',
-                        focus: 'center',
+                        focus: "center",
+                        arrows: false,
                         pagination: false,
-                        autoWidth: false,
+                        autoWidth: true,
                         autoHeight: false,
+                        autoScroll: {
+                            speed: 3,
+                            autoStart: true,
+                            pauseOnHover: true,
+                            pauseOnFocus: false,
+                        },
+                        perPage: 2,
                         breakpoints: {
-                            1400: {  // Large screens (≤1400px)
-                                grid: { rows: Rows, cols: 8 },
+                            460: {
+                                perPage: 2,
                             },
-                            1024: {   // Small screens (≤1024px)
-                                grid: { rows: Rows, cols: 5 },
+                            820: {
+                                perPage: 4,
                             },
-                            480: {   // Extra small screens (≤480px)
-                                grid: { rows: Rows, cols: 3 },
+                            1180: {
+                                perPage: 4,
+                            },
+                            1380: {
+                                perPage: 4,
+                            },
+                            1750: {
+                                perPage: 4,
                             },
                         },
                     } }
                     extensions={{ Grid }}
-                    className="mt-3 mb-5">
-                    {subCategories.map((subcat) => (
-                        <SplideSlide key={subcat.id} className="group max-md:h-[80px] md:h-[100px] xl:h-[150px] max-md:w-[80px] md:w-[100px] xl:w-[150px] bg-white rounded splide__slide group hover:shadow-[-1px_0px_5px_#CC1554,1px_0px_5px_#6A4385] origin-center hover:rotate-6 transition ease-in-out delay-150">
+                    className="w-full">
+                    {categories.map((cat) => (
+                        <SplideSlide key={cat.key} className="group splide__slide group origin-center transition ease-in-out delay-150">
                             <Link
-                                href={`/product/filters?group=${subcat.id}&name=${encodeURIComponent(subcat.name)}`}
+                                //href={`/product/filters?group=${cat.id}&name=${encodeURIComponent(cat.name)}`}
+                                href={`#`}
                                 className="flex flex-col items-center justify-center h-full w-full"
                             >
-                                <div className="h-[70%] w-full flex justify-center items-center overflow-hidden ">
-                                    <Image
-                                        src={subcat.image}
-                                        alt={subcat.name}
-                                        width={50}
-                                        height={50}
-                                        className=" h-full w-auto p-2"
-                                    />
+                                <div className="h-[70%] p-2 w-full flex justify-center items-center overflow-hidden  ">
+                                    <div className="h-16 w-16 p-2 flex justify-center items-center rounded-full bg-base shadow-[0px_0px_5px_0.3px_rgba(0,_0,_0,_0.15)]">
+                                        <Image
+                                            src={cat.image}
+                                            alt={cat.name}
+                                            width={50}
+                                            height={ 50 }
+                                            priority 
+                                            className=""
+                                        />
+                                    </div>
+                                    
                                 </div>
                                 <div className="px-1 h-[30%]">
-                                    <p className="text-sm text-center">{subcat.name}</p>
+                                    <p className="text-sm text-center">{cat.name}</p>
                                 </div>
                             </Link>
                         </SplideSlide>

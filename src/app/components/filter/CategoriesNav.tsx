@@ -1,55 +1,32 @@
 import React, { useState, useEffect } from "react";
-const API_URL =
-  process.env.NEXT_PUBLIC_PRODUCTION === "true"
-    ? process.env.NEXT_PUBLIC_PRODUCTION_API
-    : process.env.NEXT_PUBLIC_LOCAL_API;
-
-// Category Interfaces
-interface Subcategory {
-  id: string;
-  name: string;
-}
-
-interface Category {
-  id: string;
-  name: string;
-  subcategories: Subcategory[];
-}
+import { fetchCategories as getCategories, CategoryData } from "@/app/(academicBooks)/academic-books/fetchData";
 
 interface CategoriesNavProps {
   show: boolean;
   onClose: () => void;
-}
-
-interface CategoriesNavProps {
-  show: boolean;
-  onClose: () => void;
-  setSubcategories: (subcategories: string[]) => void; // NEW PROP
+  setSubcategories: (subcategories: string[]) => void;
 }
 
 const CategoriesNav: React.FC<CategoriesNavProps> = ({ show, onClose, setSubcategories }) => {
-  const [categories, setCategories] = useState<Category[]>([]);
+  const [categories, setCategories] = useState<CategoryData[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [openCategories, setOpenCategories] = useState<{ [key: string]: boolean }>({});
   const [selectedSubcategories, setSelectedSubcategories] = useState<string[]>([]);
 
   useEffect(() => {
-    const fetchCategories = async () => {
+    const fetchData = async () => {
       try {
-        const response = await fetch(`${API_URL}/categories/`);
-        if (!response.ok) {
-          throw new Error("Failed to fetch categories");
-        }
-        const data = await response.json();
-        setCategories(data);
+        const data: CategoryData[] = await getCategories();
+        setCategories(data || []);
       } catch (err) {
         setError((err as Error).message);
       } finally {
         setLoading(false);
       }
     };
-    fetchCategories();
+
+    fetchData();
   }, []);
 
   const toggleCategory = (categoryId: string) => {
@@ -58,7 +35,9 @@ const CategoriesNav: React.FC<CategoriesNavProps> = ({ show, onClose, setSubcate
 
   const handleCheckboxChange = (subcategoryId: string) => {
     setSelectedSubcategories((prev) =>
-      prev.includes(subcategoryId) ? prev.filter((id) => id !== subcategoryId) : [...prev, subcategoryId]
+      prev.includes(subcategoryId)
+        ? prev.filter((id) => id !== subcategoryId)
+        : [...prev, subcategoryId]
     );
   };
 
@@ -68,21 +47,17 @@ const CategoriesNav: React.FC<CategoriesNavProps> = ({ show, onClose, setSubcate
 
   return (
     <div
-      className={`h-[100vh] pb-10  md:hidden w-screen fixed top-14 left-0 bg-white shadow-lg transition-transform duration-300 ease-in-out z-50 ${
+      className={`h-[100vh] pb-10 md:hidden w-screen fixed top-14 left-0 bg-white shadow-lg transition-transform duration-300 ease-in-out z-50 ${
         show ? "translate-y-0" : "translate-y-full"
       }`}
     >
-	  <aside className="w-full px-4 pb-28 h-full overflow-y-auto shadow-md">
-		  <div className="flex justify-between items-center pt-5 pb-2">
-			  <h2 className="text-md font-semibold sticky top-0 left-0 bg-white z-40">Shop By Category</h2>
-			  <button
-		        onClick={onClose}
-		        className="text-xs font-semibold"
-			      >
-			        Done
-		      </button>
-		  </div>
-        
+      <aside className="w-full px-4 pb-28 h-full overflow-y-auto shadow-md">
+        <div className="flex justify-between items-center pt-5 pb-2">
+          <h2 className="text-md font-semibold sticky top-0 left-0 bg-white z-40">Shop By Category</h2>
+          <button onClick={onClose} className="text-xs font-semibold">
+            Done
+          </button>
+        </div>
 
         {loading && <p>Loading categories...</p>}
         {error && <p className="text-red-500">{error}</p>}
@@ -102,13 +77,14 @@ const CategoriesNav: React.FC<CategoriesNavProps> = ({ show, onClose, setSubcate
                 </span>
                 {category.name}
               </button>
+
               {openCategories[category.id] &&
-                category.subcategories.map((sub) => (
+                category.sub_categories?.map((sub) => (
                   <label key={sub.id} className="flex items-center ps-4 space-x-2">
                     <input
                       type="checkbox"
-                      checked={selectedSubcategories.includes(sub.id)}
-                      onChange={() => handleCheckboxChange(sub.id)}
+                      checked={selectedSubcategories.includes(sub.id.toString())}
+                      onChange={() => handleCheckboxChange(sub.id.toString())}
                     />
                     <span>{sub.name}</span>
                   </label>
@@ -120,4 +96,4 @@ const CategoriesNav: React.FC<CategoriesNavProps> = ({ show, onClose, setSubcate
   );
 };
 
-export default CategoriesNav
+export default CategoriesNav;

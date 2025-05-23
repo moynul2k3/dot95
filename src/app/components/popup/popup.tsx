@@ -19,7 +19,7 @@ const Popup = ({ isVisible, onClose, children }:PopupProps) => {
 
     return (
         <div className={`fixed top-0 left-0 h-screen w-screen flex justify-center max-md:items-end  md:items-center bg-black/10 backdrop-blur-sm z-50 transition-all ease-in-out duration-400 invisible  ${isVisible ? 'opacity-100 visible ' : 'opacity-0 invisible'}`}>
-            <div className={`w-auto h-auto bg-white rounded shadow-[#c940de] shadow-md relative max-md:flex max-md:justify-center ${isVisible ? 'slide-in-bottom' : 'slide-out-bottom'}`}>
+            <div className={`w-auto h-auto bg-white rounded shadow-base shadow-md relative max-md:flex max-md:justify-center ${isVisible ? 'slide-in-bottom' : 'slide-out-bottom'}`}>
                 <button
                     onClick={onClose} // Trigger onClose when clicked
                     className="bg-white text-xl w-8 h-8 absolute  md:-right-10 max-md:-top-16 md:-top-4 rounded-full flex justify-center items-center"

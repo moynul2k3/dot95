@@ -1,48 +1,30 @@
 import React, { useState, useEffect } from "react";
+import { fetchCategories, CategoryData } from "@/app/(academicBooks)/academic-books/fetchData";
 
-const API_URL =
-    process.env.NEXT_PUBLIC_PRODUCTION === "true"
-        ? process.env.NEXT_PUBLIC_PRODUCTION_API
-        : process.env.NEXT_PUBLIC_LOCAL_API;
-
-interface Subcategory {
-  id: string;
-  name: string;
-}
-
-interface Category {
-  id: string;
-  name: string;
-  subcategories: Subcategory[];
-}
 
 const SideNav: React.FC<{ onFilterChange: (selected: string[]) => void }> = ({ onFilterChange }) => {
-  const [categories, setCategories] = useState<Category[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
-  const [openCategories, setOpenCategories] = useState<{ [key: string]: boolean }>({});
-  const [selectedSubcategories, setSelectedSubcategories] = useState<string[]>([]);
+    const [categories, setCategories] = useState<CategoryData[]>([]);
+    const [loading, setLoading] = useState<boolean>(true);
+    const [error, setError] = useState<string | null>(null);
+    const [openCategories, setOpenCategories] = useState<{ [key: string]: boolean }>({});
+    const [selectedSubcategories, setSelectedSubcategories] = useState<string[]>([]);
 
-  // Fetch categories from REST API
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const response = await fetch(`${API_URL}/categories/`); // Replace with actual API URL
-        if (!response.ok) {
-          throw new Error("Failed to fetch categories");
+    useEffect(() => {
+      const getCategories = async () => {
+        try {
+          const category: CategoryData[] = await fetchCategories();
+          setCategories(category);
+        } catch (error) {
+          setError((error as Error).message);
+          console.error("Error fetching products:", error);
+        }finally {
+          setLoading(false);
         }
-        const data = await response.json();
-        setCategories(data);
-      } catch (err) {
-        setError((err as Error).message);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchCategories();
-  }, []);
+      };
+      getCategories();
+    }, [selectedSubcategories]);
 
-  const toggleCategory = (categoryId: string) => {
+    const toggleCategory = (categoryId: string) => {
     setOpenCategories((prev) => ({ ...prev, [categoryId]: !prev[categoryId] }));
   };
 
@@ -82,12 +64,12 @@ const SideNav: React.FC<{ onFilterChange: (selected: string[]) => void }> = ({ o
             </button>
             {openCategories[category.id] && (
               <div className="ml-4 mt-2">
-                {category.subcategories.map((sub) => (
+                {category.sub_categories.map((sub) => (
                   <label key={sub.id} className="flex items-center ps-4 space-x-2">
                     <input
                       type="checkbox"
-                      checked={selectedSubcategories.includes(sub.id)}
-                      onChange={() => handleCheckboxChange(sub.id)}
+                      checked={selectedSubcategories.includes(sub.id.toString())}
+                      onChange={() => handleCheckboxChange(sub.id.toString())}
                       className="w-4 h-4"
                     />
                     <span>{sub.name}</span>

@@ -1,16 +1,19 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Quicksand, Noto_Serif_Bengali } from 'next/font/google'
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
+const quicksand = Quicksand({
+  subsets: ['latin'],
+  variable: '--font-quicksand',
+  display: 'swap',
+})
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+const notoSerifBengali = Noto_Serif_Bengali({
+  weight: ['400', '700'],
+  subsets: ['bengali'],
+  variable: '--font-bengali',
+  display: 'swap',
+})
 
 export const metadata: Metadata = {
   title: "dot95",
@@ -23,9 +26,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className="scroll-smooth">
       <body
-        className={ `${ geistSans.variable } ${ geistMono.variable } antialiased` }
+        className={ `${quicksand.variable} ${notoSerifBengali.variable} antialiased bg-white` }
         cz-shortcut-listen="true"
       >
         {children}

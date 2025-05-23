@@ -7,13 +7,13 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Logout from "@/app/components/registration/logout";
 
-interface AuthProps {
-  isScrolled: boolean;
-  isChangeBg: boolean;
-}
+//interface AuthProps {
+//  isScrolled: boolean;
+//  isChangeBg: boolean;
+//}
 
 
-const AuthUser = ({ isScrolled, isChangeBg }: AuthProps) => {
+const AuthUser = () => {
   const [u_id, setUid] = useState<string | null>(null);
   const [rf_T, setRf_T] = useState<string | null>(null);
   const [isMounted, setIsMounted] = useState(false); // Ensure hydration consistency
@@ -33,12 +33,12 @@ const AuthUser = ({ isScrolled, isChangeBg }: AuthProps) => {
     }
   };
 
-  const textColor = isScrolled || isChangeBg ? "text-black" : "text-white";
+  //const textColor = isScrolled || isChangeBg ? "text-black" : "text-white";
 
   // Prevent rendering until after mount (fix hydration error)
   if (!isMounted) return (
     <div
-      className={`flex justify-center items-center gap-2 h-full w-full ${textColor} opacity-25 transition-all duration-300 ease-in-out cursor-pointer pointer-events-none `}
+      className={`flex justify-center items-center gap-2 h-full w-full text-black opacity-25 transition-all duration-300 ease-in-out cursor-pointer pointer-events-none `}
       aria-label="User Profile"
     >
       
@@ -52,7 +52,7 @@ const AuthUser = ({ isScrolled, isChangeBg }: AuthProps) => {
       {!u_id && !rf_T ? (
         <button
           onClick={handleButtonClick}
-          className={`flex justify-center items-center h-full w-full ${textColor} hover:opacity-70  transition-all duration-300 ease-in-out cursor-pointer`}
+          className={`flex justify-center items-center h-full w-full text-black hover:opacity-70  transition-all duration-300 ease-in-out cursor-pointer`}
           aria-label="User Profile"
         >
           <i className="bx bx-user text-2xl"></i>
@@ -62,7 +62,7 @@ const AuthUser = ({ isScrolled, isChangeBg }: AuthProps) => {
         <div className="group flex justify-center items-center">
           <button
             onClick={handleButtonClick}
-            className={`flex justify-center items-center h-full w-full ${textColor} transition-all duration-300 ease-in-out hover:opacity-85 cursor-pointer`}
+            className={`flex justify-center items-center h-full w-full text-black transition-all duration-300 ease-in-out hover:opacity-85 cursor-pointer`}
             aria-label="User Profile"
           >
             <i className="bx bx-user text-2xl"></i>

@@ -6,7 +6,6 @@ const API_URL =
         ? process.env.NEXT_PUBLIC_PRODUCTION_API
         : process.env.NEXT_PUBLIC_LOCAL_API;
 
-
 const option1 = {
     path: "/", // Available across the entire site
     secure: true, // Ensures it's sent over HTTPS
@@ -24,9 +23,9 @@ const option2 = {
 
 export const checkUserExists = async (email: string) => {
     try {
-        const response = await axios.get(`${API_URL}/check-user-exists/`, {
+        const response = await axios.get(`${API_URL}/auth/check-user-exists/`, {
             params: { email },
-            withCredentials: true,
+            withCredentials: false,
         });
         return response.data.exists;
     } catch (error) {
@@ -37,10 +36,10 @@ export const checkUserExists = async (email: string) => {
 export const loginUser = async (email: string, password: string) => {
     try {
         const response = await axios.post(
-            `${API_URL}/signin/`,
+            `${API_URL}/auth/signin/`,
             { email, password },
             {
-                withCredentials: true, // Send cookies
+                withCredentials: false, // Send cookies
             }
         );
         setCookie("ac_T", response.data.access, option1);
@@ -55,10 +54,10 @@ export const loginUser = async (email: string, password: string) => {
 export const registerUser = async (email:string, password:string, confirm_password:string) => {
     try {
         const response = await axios.post(
-            `${API_URL}/signup/`,
+            `${API_URL}/auth/signup/`,
             { email, password, confirm_password},
             {
-                withCredentials: true, // Send cookies
+                withCredentials: false, // Send cookies
             }
         );
         setCookie("ac_T", response.data.access, option1);
@@ -73,10 +72,10 @@ export const registerUser = async (email:string, password:string, confirm_passwo
 export const sendOtp = async (email:string) => {
     try {
         const response = await axios.post(
-            `${API_URL}/send_otp/`,
+            `${API_URL}/auth/send_otp/`,
             { email},
             {
-                withCredentials: true, // Send cookies
+                withCredentials: false, // Send cookies
             }
         );
         return { status: response.data.status, message: response.data.message };
@@ -88,10 +87,10 @@ export const sendOtp = async (email:string) => {
 export const verifyOtp = async (email:string, otpValue:string) => {
     try {
         const response = await axios.post(
-            `${API_URL}/verify_otp/`,
+            `${API_URL}/auth/verify_otp/`,
             { email, otpValue},
             {
-                withCredentials: true, // Send cookies
+                withCredentials: false, // Send cookies
             }
         );
         return { status: response.data.status, message: response.data.message };
@@ -103,10 +102,10 @@ export const verifyOtp = async (email:string, otpValue:string) => {
 export const resetPassword = async (email:string, password:string, confirm_password:string) => {
     try {
         const response = await axios.post(
-            `${API_URL}/forgot_password/`,
+            `${API_URL}/auth/forgot_password/`,
             { email, password, confirm_password },
             {
-                withCredentials: true, // Send cookies
+                withCredentials: false, // Send cookies
             }
         );
         
