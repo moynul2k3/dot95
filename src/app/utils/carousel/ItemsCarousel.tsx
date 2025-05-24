@@ -17,12 +17,14 @@ interface Item {
 
 interface CarouselProps {
     items: Item[];
+    small?: number;
+    medium?: number;
+    large?: number;
+    extraLarge?: number;
 }
 
-const ItemCarousel = ({ items }: CarouselProps) => {
+const ItemCarousel = ({ items, small=2, medium=3, large=4, extraLarge=5 }: CarouselProps) => {
     const [loading, setLoading] = useState(true);
-
-    console.log('items--',items)
 
     useEffect(() => {
         if (items.length > 0) {
@@ -90,19 +92,19 @@ const ItemCarousel = ({ items }: CarouselProps) => {
                             perPage: 6,
                             breakpoints: {
                                 460: {
-                                    perPage: 2,
+                                    perPage: small,
                                 },
                                 820: {
-                                    perPage: 3,
+                                    perPage: medium,
                                 },
                                 1180: {
-                                    perPage: 3,
+                                    perPage: medium,
                                 },
                                 1380: {
-                                    perPage: 4,
+                                    perPage: large,
                                 },
                                 1750: {
-                                    perPage: 5,
+                                    perPage: extraLarge,
                                 },
                             },
                             

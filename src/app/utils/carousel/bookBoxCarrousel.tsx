@@ -16,11 +16,12 @@ interface Item {
 }
 
 interface CarouselProps {
-    items: Item[];
-    speed: number;
+    Items: Item[];
+    speed?: number;
+    className?: string;
 }
 
-const ItemCarousel = ({ items, speed }: CarouselProps) => {
+const ItemCarousel = ({ Items, speed=3, className }: CarouselProps) => {
     const [loading, setLoading] = useState(true);
 
     const [bgColors, setBgColors] = useState<{ [key: string]: string }>({});
@@ -41,13 +42,13 @@ const ItemCarousel = ({ items, speed }: CarouselProps) => {
       };
 
     useEffect(() => {
-        if (items.length > 0) {
+        if (Items.length > 0) {
             setLoading(false); // Data is loaded
         }
-    }, [items]);
+    }, [Items]);
 
     return (
-        <section className="">
+        <section className={`${className}`}>
             { loading
                 ? (
                     <div className="overflow-hidden ">
@@ -89,6 +90,7 @@ const ItemCarousel = ({ items, speed }: CarouselProps) => {
                     <Splide
                         options={ {
                             type: 'loop',
+                            omitEnd  : true,
                             rewind: false,
                             gap: "1rem",
                             drag: 'free',
@@ -124,9 +126,9 @@ const ItemCarousel = ({ items, speed }: CarouselProps) => {
                             
                         } }
                         extensions={{ AutoScroll }}
-                        className="py-2 ps-2"
+                        className="py-2"
                     >
-                        {items.map((item, index) => (
+                        {Items.map((item, index) => (
                             <SplideSlide key={ item.slug || item.key || index }
                                 className="w-full h-[190px] rounded-md overflow-hidden border-[1px] border-black/15 flex justify-between items-start"
                                 style={{ backgroundColor: bgColors[item.key] || 'rgba(0,0,0,0.1)' }}

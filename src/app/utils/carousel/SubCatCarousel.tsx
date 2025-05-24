@@ -87,15 +87,15 @@ const CatCarousel = ({ categories }: CarouselProps) => {
                     } }
                     extensions={{ Grid }}
                     className="w-full">
-                    {categories.map((cat) => (
-                        <SplideSlide key={cat.key} className="group splide__slide group origin-center transition ease-in-out delay-150">
+                    {categories.map((cat, index) => (
+                        <SplideSlide key={cat.key || index} className="group splide__slide group origin-center transition ease-in-out delay-150">
                             <Link
                                 //href={`/product/filters?group=${cat.id}&name=${encodeURIComponent(cat.name)}`}
                                 href={`#`}
                                 className="flex flex-col items-center justify-center h-full w-full"
                             >
-                                <div className="h-[70%] p-2 w-full flex justify-center items-center overflow-hidden  ">
-                                    <div className="h-16 w-16 p-2 flex justify-center items-center rounded-full bg-base shadow-[0px_0px_5px_0.3px_rgba(0,_0,_0,_0.15)]">
+                                <div className="h-[70%] p-2 w-full flex justify-center items-center  ">
+                                    <div className="h-16 w-16 p-2 flex justify-center items-center rounded-full bg-base shadow-[0px_0px_5px_0.3px_rgba(0,_0,_0,_0.15)] overflow-hidden">
                                         <Image
                                             src={cat.image}
                                             alt={cat.name}

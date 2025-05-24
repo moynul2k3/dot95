@@ -17,6 +17,7 @@ export interface TopCategoryData {
   id: number;
   model: string;
   name: string;
+  image: string;
 }
 export interface CategoryData {
   id: number;

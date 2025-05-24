@@ -16,9 +16,10 @@ interface Items {
 
 interface ItemsProps {
   Items: Items[];
+  className?: string;
 }
 
-const BestSales = ({ Items }: ItemsProps) => {
+const BestSales = ({ Items, className }: ItemsProps) => {
   const [bgColors, setBgColors] = useState<{ [key: string]: string }>({});
   const imgRefs = useRef<{ [key: string]: HTMLImageElement | null }>({});
 
@@ -37,7 +38,7 @@ const BestSales = ({ Items }: ItemsProps) => {
   };
 
   return (
-    <div className="flex flex-col gap-3 mt-2">
+    <div className={`${className} flex flex-col gap-3 mt-2`}>
       {Items.map((item) => (
         <div
           key={item.key}
